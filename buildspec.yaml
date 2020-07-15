@@ -7,15 +7,16 @@ phases:
     commands:
       - echo Test started on `date`
       - mvn clean compile test
+      - sam build
   build:
     commands:
       - echo Build started on `date`
-      - mvn clean package
       - export BUCKET=codepipeline-us-west-1-720803681094
       - mvn package shade:shade
       - unzip target/HelloWorld-1.0.jar
 #      - mvn clean package
-      - aws cloudformation package --template-file template.yaml --s3-bucket $BUCKET --output-template-file outputtemplate.yaml
+#      - aws cloudformation package --template-file template.yaml --s3-bucket $BUCKET --output-template-file outputtemplate.yaml
+      - sam package --s3-bucket $BUCKET --output-template-file outputtemplate.yaml
   post_build:
     commands:
       - echo Build completed on `date` !!!

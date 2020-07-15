@@ -10,10 +10,11 @@ phases:
   build:
     commands:
       - echo Build started on `date`
+      - mvn clean package
       - export BUCKET=codepipeline-us-west-1-720803681094
       - mvn package shade:shade
       - unzip target/HelloWorld-1.0.jar
-      - mvn clean package
+#      - mvn clean package
       - aws cloudformation package --template-file template.yaml --s3-bucket $BUCKET --output-template-file outputtemplate.yaml
   post_build:
     commands:
